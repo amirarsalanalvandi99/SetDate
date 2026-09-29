@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قرار ملاقات ❤️</title>
+
+  <!-- لینک انیمیشن از CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <style>
+    /* ===== فونت ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;800&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      font-family: 'Vazirmatn', Tahoma, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      color: #fff;
+    }
+
+    /* پس‌زمینه */
+    #background {
+      position: fixed;
+      inset: 0;
+      background: url('./2798472.png') center/cover no-repeat;
+      z-index: -2;
+    }
+
+    #background canvas {
+      position: absolute !important;
+      inset: 0;
+    }
+
+    .page-wrap {
+      width: 100%;
+      padding: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      width: min(520px, 100%);
+      padding: 42px 30px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 26px;
+      background: rgba(35, 35, 35, 0.38);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      text-align: center;
+      min-height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step {
+      width: 100%;
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+      animation: fadeIn 0.45s ease both;
+    }
+
+    .heart {
+      font-size: 55px;
+      line-height: 1;
+      margin-bottom: 15px;
+      text-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      animation: pulse 1.7s infinite;
+    }
+
+    .heart.small {
+      font-size: 45px;
+    }
+
+    h1 {
+      font-weight: 800;
+      font-size: clamp(1.45rem, 5vw, 2.05rem);
+      line-height: 1.9;
+      margin-bottom: 30px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .form-title {
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .buttons.two>* {
+      flex: 1;
+    }
+
+    .btn {
+      font: inherit;
+      font-weight: 800;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 14px 18px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.2s;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn:hover,
+    .btn:active {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn.primary {
+      background: rgba(255, 255, 255, 0.27);
+    }
+
+    .btn.full {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .field-group {
+      text-align: right;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .field-group label {
+      display: block;
+      font-weight: 800;
+      margin: 0 4px 8px;
+      font-size: 1rem;
+    }
+
+    .date-picker {
+      position: relative;
+    }
+
+    .date-input,
+    .select-wrap select {
+      width: 100%;
+      height: 54px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font: inherit;
+      padding: 0 16px;
+      outline: none;
+    }
+
+    .date-input {
+      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap:after {
+      content: '⌄';
+      position: absolute;
+      left: 16px;
+      top: 12px;
+      font-size: 22px;
+      pointer-events: none;
+    }
+
+    .select-wrap select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      padding-left: 45px;
+    }
+
+    .select-wrap option {
+      color: #222;
+      background: #fff;
+    }
+
+    .calendar {
+      position: absolute;
+      z-index: 10;
+      top: 62px;
+      right: 0;
+      width: 100%;
+      max-width: 370px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(30, 30, 30, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      display: none;
+    }
+
+    .calendar.open {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .calendar-head {
+      display: grid;
+      grid-template-columns: 45px 1fr 45px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .calendar-head button {
+      border: 0;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-radius: 9px;
+      height: 38px;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .calendar-head strong {
+      text-align: center;
+    }
+
+    .weekdays,
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+
+    .weekdays div {
+      font-size: 0.75rem;
+      opacity: 0.65;
+      padding: 5px 0;
+    }
+
+    .days button {
+      height: 39px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .days button:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .days button.selected {
+      background: rgba(255, 255, 255, 0.32);
+      font-weight: 800;
+    }
+
+    .days button.empty {
+      pointer-events: none;
+    }
+
+    .error {
+      display: none;
+      color: #ffd6d6;
+      font-size: 0.9rem;
+      margin: 8px 0 2px;
+    }
+
+    .message-box {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 18px;
+      line-height: 2;
+      text-align: right;
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+
+    .instruction {
+      line-height: 2;
+      font-size: 1.05rem;
+      margin: -12px 0 18px;
+    }
+
+    .instruction b {
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+
+    .sms {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .copy-status {
+      height: 24px;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.08);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-wrap {
+        padding: 14px;
+      }
+      .card {
+        padding: 32px 19px;
+        border-radius: 22px;
+        min-height: 380px;
+      }
+      .buttons {
+        flex-direction: column;
+      }
+      .buttons.two>* {
+        width: 100%;
+      }
+      h1 {
+        font-size: 1.35rem;
+        line-height: 2;
+      }
+      .form-title {
+        font-size: 1.35rem;
+      }
+      .btn {
+        min-height: 50px;
+      }
+      .calendar {
+        max-width: 100%;
+      }
+      .days button {
+        height: 36px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="background"></div>
+
+  <main class="page-wrap">
+    <section id="app" class="card animate__animated animate__flipInX">
+      <!-- مرحله 1 -->
+      <div id="step1" class="step active">
+        <div class="heart">♥</div>
+        <h1>میدونین که یه قرار ملاقات با من دارید<br />و میخوام الان باهاتون فیکسش کنم</h1>
+        <div class="buttons two">
+          <button class="btn primary" id="yesBtn">بله، میدونم</button>
+          <button class="btn" id="noBtn">نه، نمیدونم</button>
+        </div>
+      </div>
+
+      <!-- مرحله 2 -->
+      <div id="step2" class="step">
+        <div class="heart">♥</div>
+        <h1>تو رو خدا بدونین دیگه 😄</h1>
+        <button class="btn primary full" id="continueBtn">ادامه بده</button>
+      </div>
+
+      <!-- مرحله 3 -->
+      <div id="step3" class="step">
+        <div class="heart small">♥</div>
+        <h1 class="form-title">بریم قرارمون رو تنظیم کنیم ❤️</h1>
+
+        <div class="field-group">
+          <label>تاریخ روز قرار ملاقات</label>
+          <div class="date-picker" id="datePicker">
+            <button type="button" class="date-input" id="dateInput">انتخاب تاریخ <span>📅</span></button>
+            <div class="calendar" id="calendar" aria-hidden="true">
+              <div class="calendar-head">
+                <button type="button" id="prevMonth">‹</button>
+                <strong id="monthTitle"></strong>
+                <button type="button" id="nextMonth">›</button>
+              </div>
+              <div class="weekdays" id="weekdays"></div>
+              <div class="days" id="days"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="location">محل قرار ملاقات</label>
+          <div class="select-wrap">
+            <select id="location">
+              <option value="">محل قرار را انتخاب کن...</option>
+              <option>کافه کی آرت</option>
+              <option>کافه لونارک</option>
+              <option>کافه هاگ</option>
+              <option>مدنظرم جای دیگه ای هست</option>
+            </select>
+          </div>
+        </div>
+
+        <p id="formError" class="error">لطفاً تاریخ و محل قرار را انتخاب کن.</p>
+        <button class="btn primary full" id="submitBtn">تنظیم قرار ملاقات</button>
+      </div>
+
+      <!-- مرحله 4 -->
+      <div id="step4" class="step">
+        <div class="heart">♥</div>
+        <h1>قرارمون تنظیم شد! ❤️</h1>
+        <p class="instruction">
+          متن ایجاد شده را به شماره موبایل<br /><b>09195313963</b><br />پیامک کن
+        </p>
+        <div class="message-box" id="generatedText"></div>
+        <div class="buttons two">
+          <button class="btn primary" id="copyBtn">کپی متن</button>
+          <button class="btn sms" id="backBtn" type="button">بازگشت</button>
+        </div>
+        <p id="copyStatus" class="copy-status"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- particles.js از CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js">
+  </script>
+
+  <script>
+    // ===== راه‌اندازی ذرات =====
+    if (window.particlesJS) {
+      particlesJS('background', {
+        particles: {
+          number: { value: 6, density: { enable: true, value_area: 800 } },
+          color: { value: '#c7c7c7' },
+          shape: { type: 'polygon', stroke: { width: 0, color: '#fff' }, polygon: { nb_sides: 6 } },
+          opacity: { value: 0.1, random: true, anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false } },
+          size: { value: 65, random: false, anim: { enable: true, speed: 5, size_min: 40, sync: false } },
+          line_linked: { enable: false, distance: 200, color: '#ffffff', opacity: 1, width: 2 },
+          move: { enable: true, speed: 5, direction: 'none', random: false, straight: false, out_mode: 'out',
+            bounce: false, attract: { enable: false, rotateX: 600, rotateY: 1200 } }
+        },
+        interactivity: {
+          detect_on: 'canvas',
+          events: { onhover: { enable: false, mode: 'repulse' }, onclick: { enable: false, mode: 'push' },
+            resize: true },
+          modes: {
+            grab: { distance: 400, line_linked: { opacity: 1 } },
+            bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+            repulse: { distance: 200, duration: 0.4 },
+            push: { particles_nb: 4 },
+            remove: { particles_nb: 2 }
+          }
+        },
+        retina_detect: true
+      });
+    }
+
+    // ===== منطق اصلی =====
+    const $ = id => document.getElementById(id);
+    const steps = ['step1', 'step2', 'step3', 'step4'];
+
+    function showStep(id) {
+      steps.forEach(s => $(s).classList.remove('active'));
+      $(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    $('yesBtn').addEventListener('click', () => showStep('step3'));
+    $('noBtn').addEventListener('click', () => showStep('step2'));
+    $('continueBtn').addEventListener('click', () => showStep('step3'));
+
+    // ===== تقویم شمسی =====
+    const monthNames = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+    const weekNames = ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'];
+    // تاریخ پیش‌فرض قرار ملاقات: ۹ مهر ۱۴۰۵
+    let selected = { jy: 1405, jm: 7, jd: 9 };
+    let view = { jy: 1405, jm: 7 };
+
+    function div(a) { return ~~(a / 1) }
+
+    function gregorianToJalali(gy, gm, gd) {
+      const gdm = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+      let gy2 = gy + 1,
+        days = 355666 + 365 * gy + div((gy2 + 3) / 4) - div((gy2 + 99) / 100) + div((gy2 + 399) / 400) + gd + gdm[gm - 1];
+      if (gm > 2 && ((gy % 4 === 0 && gy % 100 !== 0) || gy % 400 === 0)) days++;
+      let jy = -1595 + 33 * div(days / 12053);
+      days %= 12053;
+      jy += 4 * div(days / 1461);
+      days %= 1461;
+      if (days > 365) { jy += div((days - 1) / 365);
+        days = (days - 1) % 365 }
+      const jm = days < 186 ? 1 + div(days / 31) : 7 + div((days - 186) / 30);
+      const jd = 1 + (days < 186 ? days % 31 : (days - 186) % 30);
+      return { jy, jm, jd };
+    }
+
+    function jalaliToGregorian(jy, jm, jd) {
+      let jy2 = jy + 1595;
+      let days = -355668 + 365 * jy2 + div(jy2 / 33) * 8 + div(((jy2 % 33) + 3) / 4) + jd + (jm < 7 ? (jm - 1) * 31 : (jm - 7) *
+        30 + 186);
+      let gy = 400 * div(days / 146097);
+      days %= 146097;
+      if (days > 36524) { gy += 100 * div(--days / 36524);
+        days %= 36524; if (days >= 365) days++ }
+      gy += 4 * div(days / 1461);
+      days %= 1461;
+      if (days > 365) { gy += div((days - 1) / 365);
+        days = (days - 1) % 365 }
+      let gd = days + 1,
+        gm = 0,
+        sal = [31, ((gy % 4 === 0 && gy % 100 !== 0) || gy % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      for (let i = 0; i < 12; i++) { if (gd <= sal[i]) { gm = i + 1; break }
+        gd -= sal[i] }
+      return { gy, gm, gd };
+    }
+
+    function jalaliMonthDays(jy, jm) {
+      if (jm <= 6) return 31;
+      if (jm <= 11) return 30;
+      const g = jalaliToGregorian(jy + 1, 1, 1);
+      const leap = ((g.gy % 4 === 0 && g.gy % 100 !== 0) || g.gy % 400 === 0);
+      return leap ? 30 : 29;
+    }
+
+    function renderCalendar() {
+      $('monthTitle').textContent = monthNames[view.jm - 1] + ' ' + view.jy;
+      $('weekdays').innerHTML = weekNames.map(x => '<div>' + x + '</div>').join('');
+      const first = jalaliToGregorian(view.jy, view.jm, 1);
+      const dow = new Date(first.gy, first.gm - 1, first.gd).getDay();
+      const rtlOffset = (dow + 1) % 7;
+      let html = '';
+      for (let i = 0; i < rtlOffset; i++) html += '<button class="empty" tabindex="-1"></button>';
+      for (let d = 1; d <= jalaliMonthDays(view.jy, view.jm); d++) {
+        const sel = (selected.jy === view.jy && selected.jm === view.jm && selected.jd === d) ? ' selected' : '';
+        html += '<button class="' + sel + '" data-day="' + d + '">' + d + '</button>';
+      }
+      $('days').innerHTML = html;
+      document.querySelectorAll('#days button[data-day]').forEach(b => {
+        b.addEventListener('click', () => selectDate(Number(b.dataset.day)));
+      });
+    }
+
+    function selectDate(d) {
+      selected = { jy: view.jy, jm: view.jm, jd: d };
+      $('dateInput').innerHTML = toPersian(d + ' ' + monthNames[view.jm - 1] + ' ' + view.jy) + ' <span>📅</span>';
+      $('calendar').classList.remove('open');
+      $('calendar').setAttribute('aria-hidden', 'true');
+    }
+
+    function toPersian(s) {
+      return String(s).replace(/[0-9]/g, n => '۰۱۲۳۴۵۶۷۸۹'[n]);
+    }
+
+    // تقویم هنگام باز شدن روی مهر ۱۴۰۵ و تاریخ انتخاب‌شده نمایش داده می‌شود.
+    $('dateInput').innerHTML = toPersian('9 ' + monthNames[6] + ' 1405') + ' <span>📅</span>';
+    renderCalendar();
+
+    $('dateInput').addEventListener('click', e => {
+      e.stopPropagation();
+      $('calendar').classList.toggle('open');
+      $('calendar').setAttribute('aria-hidden', $('calendar').classList.contains('open') ? 'false' : 'true');
+    });
+
+    $('prevMonth').addEventListener('click', () => {
+      view.jm--;
+      if (view.jm < 1) { view.jm = 12;
+        view.jy-- }
+      renderCalendar();
+    });
+
+    $('nextMonth').addEventListener('click', () => {
+      view.jm++;
+      if (view.jm > 12) { view.jm = 1;
+        view.jy++ }
+      renderCalendar();
+    });
+
+    document.addEventListener('click', e => {
+      if (!$('datePicker').contains(e.target)) {
+        $('calendar').classList.remove('open');
+      }
+    });
+
+    // ===== ثبت قرار =====
+    $('submitBtn').addEventListener('click', () => {
+      const location = $('location').value;
+      if (!selected.jy || !location) {
+        $('formError').style.display = 'block';
+        return;
+      }
+      $('formError').style.display = 'none';
+      const date = selected.jy + '/' + String(selected.jm).padStart(2, '0') + '/' + String(selected.jd).padStart(2, '0');
+      const text = 'اینجانب با قرار ملاقات در تاریخ ' + toPersian(date) + ' در محل ' + location +
+        ' با امیر ارسلان موافقت مینمایم.';
+      $('generatedText').textContent = text;
+      $('copyStatus').textContent = '';
+      showStep('step4');
+    });
+
+    // ===== کپی =====
+    $('copyBtn').addEventListener('click', async () => {
+      const text = $('generatedText').textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        $('copyStatus').textContent = 'متن با موفقیت کپی شد ❤️';
+      } catch (e) {
+        $('copyStatus').textContent = 'امکان کپی خودکار وجود نداشت؛ متن را نگه دار و کپی کن.';
+      }
+    });
+
+    $('backBtn').addEventListener('click', () => showStep('step1'));
+  </script>
+
+</body>
+</html>
